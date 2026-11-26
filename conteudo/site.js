@@ -107,16 +107,17 @@ window.SITE = {
     intro: "Sua presença é o melhor presente. Se quiser me mimar, funciona assim: toque em \"Comprar\" para ver o item na loja e, depois, em \"Vou dar este\" para reservar e ninguém repetir."
   },
 
+  /* Nas respostas: ***texto*** = negrito e itálico, **texto** = negrito, *texto* = itálico */
   faq: {
     titulo: "Perguntas frequentes",
     perguntas: [
       { pergunta: "O que devo saber antes desse evento?", resposta: "Você precisa estar preparado para boas risadas e com o seu melhor espírito de competição. Afinal, nossa aniversariante é extremamente competitiva e não vai deixar ninguém passar despercebido. Será uma noite com muitos jogos e diversão e, claro, algumas surpresas e mimos da nossa blogueira preferida." },
-      { pergunta: "Posso levar acompanhante?", resposta: "Pode, desde que o direito a acompanhante tenha sido informado no convite que te enviei." },
-      { pergunta: "Como funcionam os jogos e as gincanas?", resposta: "Não vamos contar muitos detalhes para não estragar as surpresas, mas venham preparados e com roupas confortáveis. Porém… ALERTA DE SPOILER: aproveite para acompanhar e maratonar os conteúdos da nossa blogueira, pois algumas pistas serão dadas. Quanto mais informações você tiver, melhor vai se sair." },
+      { pergunta: "Posso levar acompanhante?", resposta: "Pode, desde que o direito a acompanhante tenha sido informado no convite enviado." },
+      { pergunta: "Como funcionam os jogos e as gincanas?", resposta: "Não vamos contar muitos detalhes para não estragar as surpresas, mas venham preparados e com roupas confortáveis. Porém… ***ALERTA DE SPOILER:*** aproveite para acompanhar e maratonar os conteúdos da nossa blogueira, pois algumas pistas serão dadas. Quanto mais informações você tiver, melhor vai se sair." },
       { pergunta: "Preciso levar comida e bebida?", resposta: "Não, gente! A festa vai seguir o clima tradicional das festas dos anos 2000: tudo vai ser fornecido pela aniversariante." },
-      { pergunta: "Até quando preciso confirmar?", resposta: "Até 05/12/2026. Assim consigo organizar tudo com carinho para receber você." },
-      { pergunta: "Tem estacionamento?", resposta: "Como o endereço é uma rua residencial, não tem nenhum problema em estacionar ao longo da rua." },
-      { pergunta: "Preciso dar presente?", resposta: "Não é obrigatório. Sua presença já é o presente! Mas, se quiser me mimar, a lista está aqui no site." }
+      { pergunta: "Até quando preciso confirmar?", resposta: "Até 05/12/2026. Assim conseguimos organizar tudo com carinho para receber você." },
+      { pergunta: "Tem estacionamento?", resposta: "Como o endereço é uma rua residencial, não tem nenhum problema em estacionar ao longo da rua, além de ser seguro." },
+      { pergunta: "Preciso dar presente?", resposta: "Não é obrigatório. Sua presença já é o presente! Mas, se quiser mimar nossa aniversariante, a lista está aqui no site." }
     ]
   }
 };
