@@ -46,7 +46,7 @@ window.SITE = {
     sobretitulo: "Você está convidado para",
     tituloLinha1: "O aniversário da",
     tituloLinha2: "Carol",
-    foto: "" // Para colocar uma foto no arco: salve a imagem na pasta "imagens" e escreva aqui, ex.: "imagens/carol.jpg"
+    foto: "imagens/carol.jpg" // Para colocar uma foto no arco: salve a imagem na pasta "imagens" e escreva aqui, ex.: "imagens/carol.jpg"
   },
 
   contagem: {
