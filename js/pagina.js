@@ -45,7 +45,7 @@
 
   function topo() {
     return '<div class="container topo__barra">' +
-      '<a class="marca" href="#inicio">' + esc(S.aniversariante) + "<span>" + esc(S.idade) + "</span></a>" +
+      '<a class="marca" href="#inicio"><span>' + esc(S.idade) + "</span>" + esc(S.marca || "anos da " + S.aniversariante) + "</a>" +
       '<button class="menu-botao" type="button" aria-expanded="false" aria-controls="menu">' +
         ic("menu") + "<span>Menu</span></button>" +
       '<nav class="menu" id="menu" aria-label="Seções do convite"><ul>' +
@@ -307,7 +307,7 @@
       '<p class="rodape__whats">Dúvidas? Fale com ' + esc(S.aniversariante) + " no " +
         '<a class="link" href="' + linkWhats + '" target="_blank" rel="noopener noreferrer">WhatsApp ' +
         esc(S.whatsapp.texto) + NOVA_ABA + "</a></p>" +
-      '<p class="rodape__pequeno">' + esc(S.aniversariante) + " " + esc(S.idade) + " · " + esc(S.dataPorExtenso) + "</p>" +
+      '<p class="rodape__pequeno">' + esc(S.idade) + " " + esc(S.marca || "anos da " + S.aniversariante) + " · " + esc(S.dataPorExtenso) + "</p>" +
       "</div>";
   }
 
