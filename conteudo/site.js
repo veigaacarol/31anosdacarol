@@ -50,7 +50,7 @@ window.SITE = {
   },
 
   contagem: {
-    titulo: "Falta pouco para a festa",
+    titulo: "Falta pouco para a festa!",
     fim: "A festa começou!"
   },
 
