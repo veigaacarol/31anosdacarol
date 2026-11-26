@@ -7,6 +7,9 @@
 
   var S = window.SITE;
   var P = window.PRESENTES || [];
+  var CATS = (window.CATEGORIAS_PRESENTES || []).filter(function (c) {
+    return P.some(function (p) { return p.categoria === c.id; });
+  });
   var I = window.ICONES;
   var API = window.API;
 
@@ -293,6 +296,13 @@
         '<p class="intro">' + esc(S.presentes.intro) + "</p></div>" +
         '<p class="contador" id="contador-presentes">' + ic("presente") + "<span></span></p>" +
       "</div>" +
+      (CATS.length > 1
+        ? '<ul class="categorias" aria-label="Categorias de presentes">' +
+            CATS.map(function (c) {
+              return '<li><button class="categoria" type="button" data-categoria="' + esc(c.id) + '" aria-pressed="false" aria-controls="lista-presentes">' +
+                esc(c.nome) + ' <span class="categoria__qtd"></span></button></li>';
+            }).join("") + "</ul>"
+        : "") +
       '<ul class="lista-presentes" id="lista-presentes"></ul>' +
       '<p class="status-presentes" id="status-presentes" role="status" aria-live="polite"></p>' +
       "</div></section>";
@@ -496,7 +506,14 @@
     var meu = escolhido && !!m[p.id];
     var imagem = p.foto
       ? '<img src="' + esc(p.foto) + '" alt="" loading="lazy">'
-      : ic(p.icone);
+      : ic(p.icone || "presente");
+    var info = [];
+    if (p.tamanho) info.push("<li><span>Tamanho:</span> " + esc(p.tamanho) + "</li>");
+    if (p.cor) info.push("<li><span>Cor:</span> " + esc(p.cor) + "</li>");
+    var detalhes =
+      (p.autor ? '<p class="presente__autor">por ' + esc(p.autor) + "</p>" : "") +
+      (info.length ? '<ul class="presente__info">' + info.join("") + "</ul>" : "") +
+      (p.detalhes ? '<p class="presente__detalhes">' + esc(p.detalhes) + "</p>" : "");
     var comprar = '<a class="botao botao--contorno botao--pequeno" href="' + esc(p.link) + '" target="_blank" rel="noopener noreferrer">' +
       "Comprar" + ic("externo") + '<span class="sr-only"> ' + esc(p.nome) + " na loja " + esc(p.loja) + " (abre em nova aba)</span></a>";
     var botoes;
@@ -516,18 +533,27 @@
         (escolhido ? '<span class="selo">' + ic("check") + "Já escolhido</span>" : "") + imagem +
       "</div>" +
       '<div class="presente__corpo">' +
-        "<h3>" + esc(p.nome) + "</h3>" +
-        '<p class="presente__detalhes">' + esc(p.detalhes) + "</p>" +
-        '<p class="presente__loja">Loja sugerida: <strong>' + esc(p.loja) + "</strong></p>" +
+        "<h3>" + esc(p.nome) + "</h3>" + detalhes +
         botoes +
       "</div></li>";
   }
 
+  var categoriaAtual = CATS.length ? CATS[0].id : null;
+
   function desenharPresentes(focarId, focarAcao) {
     var m = meus();
-    $("#lista-presentes").innerHTML = P.map(function (p) { return cardPresente(p, m); }).join("");
+    var visiveis = categoriaAtual ? P.filter(function (p) { return p.categoria === categoriaAtual; }) : P;
+    $("#lista-presentes").innerHTML = visiveis.map(function (p) { return cardPresente(p, m); }).join("");
     var livres = P.filter(function (p) { return !escolhidos.has(p.id); }).length;
     $("#contador-presentes span").innerHTML = "<strong>" + livres + "</strong> de " + P.length + " disponíveis";
+    $$(".categoria").forEach(function (b) {
+      var id = b.getAttribute("data-categoria");
+      var daCat = P.filter(function (p) { return p.categoria === id; });
+      var livresCat = daCat.filter(function (p) { return !escolhidos.has(p.id); }).length;
+      b.setAttribute("aria-pressed", String(id === categoriaAtual));
+      b.querySelector(".categoria__qtd").textContent = "(" + livresCat + ")";
+      b.setAttribute("aria-label", b.firstChild.textContent.trim() + ", " + livresCat + " disponíveis");
+    });
     if (focarId) {
       var card = document.querySelector('.presente[data-id="' + focarId + '"]');
       var alvo = card && (card.querySelector('[data-acao="' + focarAcao + '"]') || card.querySelector("button, a"));
@@ -558,6 +584,14 @@
     atualizarPresentes();
     setInterval(atualizarPresentes, 30000);
     document.addEventListener("visibilitychange", function () { if (!document.hidden) atualizarPresentes(); });
+
+    $$(".categoria").forEach(function (b) {
+      b.addEventListener("click", function () {
+        categoriaAtual = b.getAttribute("data-categoria");
+        status.textContent = "";
+        desenharPresentes();
+      });
+    });
 
     $("#lista-presentes").addEventListener("click", async function (e) {
       var botao = e.target.closest("button[data-acao]");
