@@ -64,7 +64,7 @@ window.SITE = {
   universo: {
     sobretitulo: "A imersão",
     titulo: "Entre no meu universo",
-    texto: "Por um dia, você sai da tela e entra no meu universo. Vai ter magia, jogos e muita brincadeira, do jeitinho que eu crio todo dia para vocês.",
+    texto: "Por um dia, você sai de trás da tela e entra no meu universo! Já imaginou acompanhar os bastidores de um conteúdo? Ou quem sabe fazer parte dele? Será uma noite de conteúdos, jogos, brincadeiras e muitas risadas. Afinal, se não render uma boa história ou uma gargalhada, não sou eu, não é mesmo? Animadíssima pra comemorarmos juntos!",
     chamada: "Enquanto a festa não chega, me acompanhe por aqui:"
   },
 
