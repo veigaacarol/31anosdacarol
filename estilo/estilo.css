@@ -315,13 +315,15 @@ main:focus { outline: none; }
 .universo h2 { color: var(--creme); }
 .universo .sobretitulo { color: var(--caramelo); }
 .texto-grande { font-size: 1.2rem; color: var(--areia); max-width: 52ch; }
+.universo .texto-grande { max-width: none; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+@media (max-width: 520px) { .universo .texto-grande { font-size: 1.02rem; line-height: 1.6; } }
 .universo__chamada { color: var(--areia); margin: 1.5rem 0 .9rem; }
 .universo__arte { width: min(170px, 50%); margin-inline: auto; color: var(--caramelo); }
-@media (min-width: 860px) { .universo__arte { width: min(240px, 80%); } }
+@media (min-width: 860px) { .universo__arte { width: 210px; margin: 0; } }
 .universo__arte svg { width: 100%; height: auto; }
 @media (max-width: 520px) { .universo .botoes .botao { flex: 1 1 100%; } }
 @media (min-width: 860px) {
-  .universo { grid-template-columns: 1.5fr 1fr; padding: 3.5rem 3.5rem; }
+  .universo { grid-template-columns: minmax(0, 1fr) auto; gap: 3rem; padding: 3.5rem 3.5rem; }
 }
 
 /* ---------- 7. Traje ---------- */
