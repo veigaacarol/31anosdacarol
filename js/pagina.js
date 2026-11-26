@@ -35,8 +35,8 @@
 
   /* ---------- 1. Barra superior ---------- */
   var MENU = [
-    ["#evento", "O evento"],
     ["#universo", "Meu universo"],
+    ["#evento", "O evento"],
     ["#como-chegar", "Como chegar"],
     ["#presenca", "Presença"],
     ["#presentes", "Presentes"],
@@ -252,6 +252,12 @@
           "</div>" +
           '<fieldset class="campo"><legend>Quantas pessoas vão? <span class="dica">(contando com você)</span></legend>' +
             '<div class="pilulas">' + pilulas + "</div></fieldset>" +
+          '<div class="campo" id="campo-acompanhantes" hidden>' +
+            '<label for="acompanhantes">Nome dos acompanhantes <span aria-hidden="true">*</span><span class="sr-only">(obrigatório)</span> ' +
+              '<span class="dica">(separe por vírgula)</span></label>' +
+            '<input type="text" id="acompanhantes" name="acompanhantes" maxlength="300" autocomplete="off" aria-describedby="erro-acompanhantes">' +
+            '<p class="erro" id="erro-acompanhantes" hidden></p>' +
+          "</div>" +
           '<div class="campo">' +
             '<label for="recado">Recado para a ' + esc(S.aniversariante) + ' <span class="dica">(opcional)</span></label>' +
             '<textarea id="recado" name="recado" rows="3" maxlength="500"></textarea>' +
@@ -381,6 +387,22 @@
       b.addEventListener("click", function () { ultimoBotao = b.value; });
     });
 
+    // "Nome dos acompanhantes" só aparece quando vai mais de 1 pessoa
+    var blocoAcomp = $("#campo-acompanhantes"), campoAcomp = form.elements.acompanhantes, erroAcomp = $("#erro-acompanhantes");
+    function qtdPessoas() {
+      var marcado = form.querySelector('input[name="pessoas"]:checked');
+      return marcado ? Number(marcado.value) : 1;
+    }
+    function limparErroAcomp() { campoAcomp.removeAttribute("aria-invalid"); erroAcomp.hidden = true; }
+    function mostrarAcomp() {
+      var n = qtdPessoas();
+      blocoAcomp.hidden = n < 2;
+      campoAcomp.placeholder = n === 2 ? "Ex.: Ana Souza" : "Ex.: Ana Souza, João Lima";
+      if (n < 2) limparErroAcomp();
+    }
+    $$('input[name="pessoas"]', form).forEach(function (r) { r.addEventListener("change", mostrarAcomp); });
+    mostrarAcomp();
+
     form.addEventListener("submit", async function (ev) {
       ev.preventDefault();
       var vai = (ev.submitter ? ev.submitter.value : ultimoBotao) === "sim";
@@ -396,15 +418,24 @@
       campoNome.removeAttribute("aria-invalid");
       erroNome.hidden = true;
 
-      var marcado = form.querySelector('input[name="pessoas"]:checked');
-      var pessoas = marcado ? Number(marcado.value) : 1;
+      var pessoas = qtdPessoas();
+      var acompanhantes = pessoas > 1 ? campoAcomp.value.replace(/\s+/g, " ").trim() : "";
+      if (vai && pessoas > 1 && acompanhantes.length < 2) {
+        campoAcomp.setAttribute("aria-invalid", "true");
+        erroAcomp.textContent = "Escreva o nome de quem vai com você.";
+        erroAcomp.hidden = false;
+        campoAcomp.focus();
+        return;
+      }
+      limparErroAcomp();
+
       var botoes = $$("button", form);
       botoes.forEach(function (b) { b.disabled = true; });
       status.textContent = "Enviando…";
 
       try {
         await API.confirmar({
-          nome: nome, pessoas: pessoas, recado: form.elements.recado.value, vai: vai,
+          nome: nome, pessoas: pessoas, acompanhantes: acompanhantes, recado: form.elements.recado.value, vai: vai,
           armadilha: form.elements.website.value
         });
         var primeiroNome = nome.split(" ")[0];
@@ -426,6 +457,7 @@
 
     $("#outra-resposta").addEventListener("click", function () {
       form.reset();
+      mostrarAcomp();
       sucesso.hidden = true;
       form.hidden = false;
       campoNome.focus();
@@ -567,7 +599,7 @@
     }
     $("#topo").innerHTML = topo();
     $("#conteudo").innerHTML =
-      hero() + contagem() + evento() + universo() + gincanas() + traje() + comoChegar() + presenca() + presentes() + faq();
+      hero() + contagem() + universo() + evento() + gincanas() + traje() + comoChegar() + presenca() + presentes() + faq();
     $("#rodape").innerHTML = rodape();
 
     iniciarMenu();

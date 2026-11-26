@@ -82,11 +82,12 @@
       bloco("Presentes escolhidos", pres.length + " de " + P.length);
 
     $("#tabela-confirmacoes").innerHTML = c.length
-      ? "<table><thead><tr><th>Nome</th><th>Resposta</th><th>Pessoas</th><th>Recado</th><th>Quando</th></tr></thead><tbody>" +
+      ? "<table><thead><tr><th>Nome</th><th>Resposta</th><th>Pessoas</th><th>Acompanhantes</th><th>Recado</th><th>Quando</th></tr></thead><tbody>" +
         c.map(function (x) {
           return "<tr><td>" + esc(x.nome) + "</td>" +
             "<td>" + (x.vai ? '<span class="etiqueta etiqueta--sim">Vai</span>' : '<span class="etiqueta etiqueta--nao">Não vai</span>') + "</td>" +
             "<td>" + (x.vai ? esc(x.pessoas) : "–") + "</td>" +
+            "<td>" + esc(x.acompanhantes || "") + "</td>" +
             "<td>" + esc(x.recado || "") + "</td>" +
             "<td>" + esc(dataBR(x.criado_em)) + "</td></tr>";
         }).join("") +
@@ -124,9 +125,9 @@
   }
 
   $("#csv-confirmacoes").addEventListener("click", function () {
-    var linhas = [["Nome", "Vai?", "Pessoas", "Recado", "Respondido em"]];
+    var linhas = [["Nome", "Vai?", "Pessoas", "Acompanhantes", "Recado", "Respondido em"]];
     (dados.confirmacoes || []).forEach(function (x) {
-      linhas.push([x.nome, x.vai ? "Sim" : "Não", x.vai ? x.pessoas : 0, x.recado || "", dataBR(x.criado_em)]);
+      linhas.push([x.nome, x.vai ? "Sim" : "Não", x.vai ? x.pessoas : 0, x.acompanhantes || "", x.recado || "", dataBR(x.criado_em)]);
     });
     baixarCsv("confirmacoes-carol31.csv", linhas);
   });

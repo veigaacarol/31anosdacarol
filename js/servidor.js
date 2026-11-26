@@ -16,6 +16,7 @@
     NOME: "Escreva seu nome (de 2 a 80 caracteres).",
     PESSOAS: "Escolha de 1 a 4 pessoas.",
     RECADO: "O recado pode ter no máximo 500 caracteres.",
+    ACOMPANHANTES: "Escreva o nome de quem vai com você (até 300 caracteres).",
     INVALIDO: "Algo não saiu como esperado. Recarregue a página e tente de novo.",
     REDE: "Não consegui falar com o servidor. Confira sua internet e tente de novo."
   };
@@ -36,7 +37,10 @@
     if (nome.length < 2 || nome.length > 80) throw erro("NOME");
     if (d.vai && !(d.pessoas >= 1 && d.pessoas <= 4)) throw erro("PESSOAS");
     if (recado.length > 500) throw erro("RECADO");
-    return { nome: nome, recado: recado, pessoas: d.vai ? Number(d.pessoas) : 0, vai: !!d.vai };
+    var pessoas = d.vai ? Number(d.pessoas) : 0;
+    var acompanhantes = pessoas > 1 ? limpar(d.acompanhantes) : "";
+    if (pessoas > 1 && (acompanhantes.length < 2 || acompanhantes.length > 300)) throw erro("ACOMPANHANTES");
+    return { nome: nome, recado: recado, pessoas: pessoas, acompanhantes: acompanhantes, vai: !!d.vai };
   }
 
   async function rpc(funcao, corpo) {
@@ -79,12 +83,12 @@
         await pausa();
         if (d.armadilha) return { ok: true };
         var lista = ler(K_RSVP, []);
-        lista.unshift({ nome: v.nome, pessoas: v.pessoas, recado: v.recado || null, vai: v.vai, criado_em: new Date().toISOString() });
+        lista.unshift({ nome: v.nome, pessoas: v.pessoas, acompanhantes: v.acompanhantes || null, recado: v.recado || null, vai: v.vai, criado_em: new Date().toISOString() });
         gravar(K_RSVP, lista);
         return { ok: true };
       }
       return rpc("confirmar_presenca", {
-        p_nome: v.nome, p_pessoas: v.pessoas, p_recado: v.recado, p_vai: v.vai, p_armadilha: d.armadilha || ""
+        p_nome: v.nome, p_pessoas: v.pessoas, p_acompanhantes: v.acompanhantes, p_recado: v.recado, p_vai: v.vai, p_armadilha: d.armadilha || ""
       });
     },
 
