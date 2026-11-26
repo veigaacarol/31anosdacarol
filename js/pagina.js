@@ -20,6 +20,13 @@
     return '<svg class="' + (classe || "icone") + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
       (I[nome] || I.presente) + "</svg>";
   }
+  // Texto seguro com destaques simples: ***negrito e itálico***, **negrito**, *itálico*
+  function destaque(s) {
+    return esc(s)
+      .replace(/\*\*\*(.+?)\*\*\*/g, "<strong><em>$1</em></strong>")
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>");
+  }
   function $(sel, raiz) { return (raiz || document).querySelector(sel); }
   function $$(sel, raiz) { return Array.prototype.slice.call((raiz || document).querySelectorAll(sel)); }
   function brilho(cx, cy, s) {
@@ -301,7 +308,7 @@
             '<button type="button" id="faq-botao-' + i + '" aria-expanded="false" aria-controls="faq-resposta-' + i + '">' +
               "<span>" + esc(q.pergunta) + "</span>" + ic("seta") + "</button></h3>" +
             '<div class="faq__resposta" id="faq-resposta-' + i + '" role="region" aria-labelledby="faq-botao-' + i + '" hidden>' +
-              "<p>" + esc(q.resposta) + "</p></div></div>";
+              "<p>" + destaque(q.resposta) + "</p></div></div>";
         }).join("") +
       "</div></div></section>";
   }
@@ -370,11 +377,17 @@
   }
 
   function iniciarFaq() {
-    $$(".faq__item button").forEach(function (b) {
+    var botoes = $$(".faq__item button");
+    function alternar(b, abrir) {
+      b.setAttribute("aria-expanded", String(abrir));
+      document.getElementById(b.getAttribute("aria-controls")).hidden = !abrir;
+    }
+    botoes.forEach(function (b) {
       b.addEventListener("click", function () {
-        var aberto = b.getAttribute("aria-expanded") === "true";
-        b.setAttribute("aria-expanded", String(!aberto));
-        document.getElementById(b.getAttribute("aria-controls")).hidden = aberto;
+        var abrir = b.getAttribute("aria-expanded") !== "true";
+        // Só uma resposta aberta por vez: abrir uma fecha a anterior
+        if (abrir) botoes.forEach(function (outro) { if (outro !== b) alternar(outro, false); });
+        alternar(b, abrir);
       });
     });
   }
