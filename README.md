@@ -151,7 +151,7 @@ espere 1 ou 2 minutos. Ou arraste o arquivo novo em **Add file › Upload files*
 
 Em `.../admin/`, digite sua senha para:
 
-- ver quem confirmou, quantas pessoas vão no total e os recados;
+- ver quem confirmou, quantas pessoas vão no total, o nome dos acompanhantes e os recados;
 - ver quais presentes já foram escolhidos;
 - **Liberar** um presente, caso alguém tenha marcado por engano;
 - **Exportar CSV**, que abre no Excel ou no Google Planilhas.
@@ -182,7 +182,8 @@ A página do admin não aparece no menu do site nem no Google.
 ## Como a segurança funciona (resumo)
 
 - **Confirmações:** o banco confere nome (2 a 80 letras), número de pessoas
-  (1 a 4) e recado (até 500 letras). Cada aparelho pode enviar até 6 respostas
+  (1 a 4), nome dos acompanhantes (obrigatório quando vai mais de 1 pessoa,
+  até 300 letras) e recado (até 500 letras). Cada aparelho pode enviar até 6 respostas
   a cada 10 minutos. Um campo invisível pega robôs. A lista só aparece no
   admin, com senha.
 - **Presentes:** marcar e desfazer acontecem no banco. Se duas pessoas
