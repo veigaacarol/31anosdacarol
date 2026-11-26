@@ -10,6 +10,7 @@
 window.SITE = {
   aniversariante: "Carol",
   idade: 31,
+  marca: "anos da Carol", // aparece depois do número na barra superior: "31 anos da Carol"
 
   /* Data e hora da festa, usadas na CONTAGEM REGRESSIVA.
      Formato: ANO-MÊS-DIA T HORA:MINUTO:00 e o fuso -03:00 (Rio de Janeiro). */
@@ -42,8 +43,8 @@ window.SITE = {
   },
 
   hero: {
-    sobretitulo: "Você está convidado",
-    tituloLinha1: "O aniversário de",
+    sobretitulo: "Você está convidado para",
+    tituloLinha1: "O aniversário da",
     tituloLinha2: "Carol",
     foto: "" // Para colocar uma foto no arco: salve a imagem na pasta "imagens" e escreva aqui, ex.: "imagens/carol.jpg"
   },
