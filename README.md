@@ -169,7 +169,10 @@ A página do admin não aparece no menu do site nem no Google.
 - **Colocar sua foto no arco:** salve a foto em `imagens/` (por exemplo
   `imagens/carol.jpg`) e, em `site.js`, escreva `foto: "imagens/carol.jpg"`
   dentro de `hero`.
-- **Foto de um presente:** salve em `imagens/` e preencha `foto` no presente.
+- **Foto de um presente:** salve em `imagens/presentes/` e preencha `foto` no
+  presente, por exemplo `"imagens/presentes/meu-presente.jpg"`.
+- **Categorias:** ficam em `CATEGORIAS_PRESENTES`, no topo de `presentes.js`.
+  Cada presente diz a sua em `categoria` ("livros", "fitness" ou "make").
 - **Trocar cores:** edite os códigos em `estilo/cores.css`. Mantenha uma cor
   escura e uma clara com bom contraste, para todo mundo conseguir ler.
 - **Adicionar presente:** copie um bloco `{ ... }` inteiro em `presentes.js`,
