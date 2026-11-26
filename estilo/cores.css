@@ -1,0 +1,20 @@
+/* ================================================================
+   CORES E FONTES DO SITE
+   Troque os códigos de cor aqui e o site inteiro muda junto.
+   Dica: mantenha cores claras e escuras com bom contraste entre si.
+   ================================================================ */
+
+:root {
+  --chocolate: #493329; /* fundos escuros e texto */
+  --cafe: #795C48;      /* bordas e detalhes */
+  --caramelo: #B69C81;  /* destaques e botões */
+  --areia: #E5D8C6;     /* cards e faixas */
+  --creme: #F7F3EC;     /* fundo da página */
+
+  --erro: #8A2C1D;      /* mensagens de erro do formulário */
+
+  --fonte-titulo: "Fraunces", Georgia, "Times New Roman", serif;
+  --fonte-texto: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --raio: 28px;         /* arredondamento dos cards */
+}
