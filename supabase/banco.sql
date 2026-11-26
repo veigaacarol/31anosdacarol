@@ -20,10 +20,14 @@ create table if not exists public.confirmacoes (
   id         bigint generated always as identity primary key,
   nome       text        not null check (char_length(nome) between 2 and 80),
   pessoas    smallint    not null check (pessoas between 0 and 4),
+  acompanhantes text              check (char_length(acompanhantes) <= 300),
   recado     text                 check (char_length(recado) <= 500),
   vai        boolean     not null,
   criado_em  timestamptz not null default now()
 );
+-- Para bancos criados antes do campo "acompanhantes" existir
+alter table public.confirmacoes add column if not exists acompanhantes text
+  check (char_length(acompanhantes) <= 300);
 
 create table if not exists public.presentes_escolhidos (
   presente_id  text        primary key,          -- a chave primária impede escolha dupla
@@ -118,8 +122,10 @@ revoke execute on function public._admin_ok(text)               from public, ano
 -- ---------- Funções usadas pelo site ----------
 
 -- Confirmação de presença
+drop function if exists public.confirmar_presenca(text, int, text, boolean, text);
 create or replace function public.confirmar_presenca(
-  p_nome text, p_pessoas int, p_recado text, p_vai boolean, p_armadilha text default ''
+  p_nome text, p_pessoas int, p_recado text, p_vai boolean, p_armadilha text default '',
+  p_acompanhantes text default ''
 )
 returns json
 language plpgsql security definer
@@ -128,6 +134,7 @@ as $$
 declare
   v_nome   text := btrim(regexp_replace(coalesce(p_nome, ''), '\s+', ' ', 'g'));
   v_recado text := nullif(btrim(coalesce(p_recado, '')), '');
+  v_acomp  text := nullif(btrim(regexp_replace(coalesce(p_acompanhantes, ''), '\s+', ' ', 'g')), '');
 begin
   -- Campo invisível preenchido = robô. Finge que deu certo e não salva.
   if coalesce(p_armadilha, '') <> '' then
@@ -143,9 +150,13 @@ begin
   if p_vai is null then raise exception 'INVALIDO'; end if;
   if p_vai and (p_pessoas is null or p_pessoas < 1 or p_pessoas > 4) then raise exception 'PESSOAS'; end if;
   if v_recado is not null and char_length(v_recado) > 500 then raise exception 'RECADO'; end if;
+  if not p_vai or p_pessoas < 2 then v_acomp := null; end if;
+  if p_vai and p_pessoas >= 2 and (v_acomp is null or char_length(v_acomp) < 2 or char_length(v_acomp) > 300) then
+    raise exception 'ACOMPANHANTES';
+  end if;
 
-  insert into public.confirmacoes (nome, pessoas, recado, vai)
-  values (v_nome, case when p_vai then p_pessoas else 0 end, v_recado, p_vai);
+  insert into public.confirmacoes (nome, pessoas, acompanhantes, recado, vai)
+  values (v_nome, case when p_vai then p_pessoas else 0 end, v_acomp, v_recado, p_vai);
 
   return json_build_object('ok', true);
 end $$;
@@ -213,7 +224,7 @@ begin
     'ok', true,
     'confirmacoes', coalesce((
       select json_agg(c order by c.criado_em desc)
-        from (select nome, pessoas, recado, vai, criado_em from public.confirmacoes) c
+        from (select nome, pessoas, acompanhantes, recado, vai, criado_em from public.confirmacoes) c
     ), '[]'::json),
     'presentes', coalesce((
       select json_agg(p order by p.escolhido_em)
@@ -237,7 +248,7 @@ begin
   return json_build_object('ok', true);
 end $$;
 
-grant execute on function public.confirmar_presenca(text, int, text, boolean, text) to anon, authenticated;
+grant execute on function public.confirmar_presenca(text, int, text, boolean, text, text) to anon, authenticated;
 grant execute on function public.presentes_status()                                to anon, authenticated;
 grant execute on function public.escolher_presente(text, text)                     to anon, authenticated;
 grant execute on function public.desfazer_presente(text, text)                     to anon, authenticated;
