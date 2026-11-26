@@ -67,8 +67,14 @@
   function hero() {
     var h = S.hero;
     var arco = h.foto
-      ? '<div class="arco arco--foto"><img src="' + esc(h.foto) + '" alt="Foto de ' + esc(S.aniversariante) + '">' +
-        '<span class="arco__selo">' + esc(S.idade) + " anos</span></div>"
+      ? '<div class="arco-grupo">' +
+          '<div class="arco arco--foto"><img src="' + esc(h.foto) + '" alt="Foto da ' + esc(S.aniversariante) + '" width="880" height="1100" fetchpriority="high"></div>' +
+          '<p class="selo-idade"><span class="selo-idade__num">' + esc(S.idade) + '</span><span class="selo-idade__anos">anos</span>' +
+            '<span class="selo-idade__brilho selo-idade__brilho--a" aria-hidden="true">' + ic("brilho") + "</span>" +
+            '<span class="selo-idade__brilho selo-idade__brilho--b" aria-hidden="true">' + ic("brilho") + "</span>" +
+            '<span class="selo-idade__brilho selo-idade__brilho--c" aria-hidden="true">' + ic("brilho") + "</span>" +
+          "</p>" +
+        "</div>"
       : '<div class="arco" role="img" aria-label="' + esc(S.idade) + ' anos">' +
         '<span class="arco__numero" aria-hidden="true">' + esc(S.idade) + "</span>" +
         '<span class="arco__anos" aria-hidden="true">anos</span></div>';
