@@ -226,8 +226,40 @@ main:focus { outline: none; }
   font-size: clamp(5.5rem, 26vw, 10rem); line-height: .85; letter-spacing: -0.04em;
 }
 .arco__anos { font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.7rem; letter-spacing: .08em; }
-.arco--foto { overflow: hidden; box-shadow: none; border: 4px solid var(--caramelo); }
-.arco--foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.arco--foto { overflow: hidden; box-shadow: none; border: 4px solid var(--caramelo); background: var(--cafe); }
+.arco--foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+
+/* Foto no arco + selo "31 anos" na diagonal, ao lado */
+.arco-grupo { position: relative; display: inline-block; margin-right: 84px; }
+.selo-idade {
+  position: absolute; right: -92px; bottom: 16%; margin: 0;
+  display: flex; flex-direction: column; align-items: center;
+  color: var(--caramelo); line-height: .85;
+  transform: rotate(-12deg); transform-origin: center;
+  text-shadow: 0 2px 14px rgba(40, 26, 20, .55);
+}
+.selo-idade__num {
+  font-family: var(--fonte-titulo); font-weight: 800; letter-spacing: -0.04em;
+  font-size: 4.6rem;
+}
+.selo-idade__anos {
+  font-family: var(--fonte-titulo); font-weight: 800; letter-spacing: .1em;
+  font-size: 1.25rem; color: var(--creme); margin-top: .2rem;
+}
+.selo-idade__brilho { position: absolute; color: var(--creme); }
+.selo-idade__brilho .icone { width: 100%; height: 100%; stroke-width: 1.4; }
+.selo-idade__brilho--a { width: 26px; height: 26px; top: -22px; right: -18px; }
+.selo-idade__brilho--b { width: 16px; height: 16px; top: 8px; left: -20px; color: var(--caramelo); }
+.selo-idade__brilho--c { width: 14px; height: 14px; bottom: -14px; right: -6px; color: var(--areia); }
+@media (min-width: 860px) {
+  .arco-grupo { margin-right: 150px; }
+  .selo-idade { right: -132px; bottom: 22%; }
+  .selo-idade__num { font-size: 7.5rem; }
+  .selo-idade__anos { font-size: 1.9rem; }
+  .selo-idade__brilho--a { width: 38px; height: 38px; top: -30px; right: -26px; }
+  .selo-idade__brilho--b { width: 22px; height: 22px; left: -30px; }
+  .selo-idade__brilho--c { width: 18px; height: 18px; }
+}
 .arco__selo {
   position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
   background: var(--caramelo); color: var(--chocolate); border-radius: 999px;
