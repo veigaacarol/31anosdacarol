@@ -14,6 +14,6 @@
    ================================================================ */
 
 window.CONEXAO = {
-  supabaseUrl: "",
-  supabaseChave: ""
+  supabaseUrl: "https://mgncidzpwaffjfqqxdwa.supabase.co",
+  supabaseChave: "sb_publishable_wH_gj-rZApBWiFB9yId2Xg_LDtYPeGa"
 };
