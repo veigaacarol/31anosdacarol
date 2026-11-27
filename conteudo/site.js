@@ -103,7 +103,7 @@ window.SITE = {
   },
 
   presentes: {
-    titulo: "Lista de presentes",
+    titulo: "Sugestões de presente",
     intro: "Sua presença é o melhor presente. Se quiser me mimar, funciona assim: toque em \"Comprar\" para ver o item na loja e, depois, em \"Vou dar este\" para reservar e ninguém repetir."
   },
 
@@ -117,7 +117,7 @@ window.SITE = {
       { pergunta: "Preciso levar comida e bebida?", resposta: "Não, gente! A festa vai seguir o clima tradicional das festas dos anos 2000: tudo vai ser fornecido pela aniversariante." },
       { pergunta: "Até quando preciso confirmar?", resposta: "Até 05/12/2026. Assim conseguimos organizar tudo com carinho para receber você." },
       { pergunta: "Tem estacionamento?", resposta: "Como o endereço é uma rua residencial, não tem nenhum problema em estacionar ao longo da rua, além de ser seguro." },
-      { pergunta: "Preciso dar presente?", resposta: "Não é obrigatório. Sua presença já é o presente! Mas, se quiser mimar nossa aniversariante, a lista está aqui no site." }
+      { pergunta: "Preciso dar presente?", resposta: "Não é obrigatório. Sua presença já é o presente! Mas, se quiser mimar nossa aniversariante, as sugestões estão aqui no site." }
     ]
   }
 };

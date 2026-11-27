@@ -1,5 +1,5 @@
 /* ================================================================
-   LISTA DE PRESENTES (pode editar à vontade)
+   SUGESTÕES DE PRESENTE (pode editar à vontade)
 
    CATEGORIAS: as abas que aparecem acima da lista, na ordem em que estão aqui.
 
