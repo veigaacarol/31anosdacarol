@@ -91,7 +91,7 @@
           "</ul>" +
           '<div class="botoes">' +
             '<a class="botao botao--caramelo" href="#presenca">Confirmar presença</a>' +
-            '<a class="botao botao--contorno-claro" href="#presentes">Ver lista de presentes</a>' +
+            '<a class="botao botao--contorno-claro" href="#presentes">Ver sugestões de presente</a>' +
           "</div>" +
         "</div>" +
         '<div class="hero__arte">' + arco +
@@ -630,7 +630,7 @@
           if (ok2) {
             escolhidos.delete(id);
             desenharPresentes(id, "escolher");
-            status.textContent = "Pronto, \"" + presente.nome + "\" voltou para a lista.";
+            status.textContent = "Pronto, \"" + presente.nome + "\" está disponível de novo.";
           } else {
             await atualizarPresentes();
             desenharPresentes();
