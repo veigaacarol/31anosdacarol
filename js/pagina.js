@@ -10,6 +10,7 @@
   var CATS = (window.CATEGORIAS_PRESENTES || []).filter(function (c) {
     return P.some(function (p) { return p.categoria === c.id; });
   });
+  var TODAS = "todas"; // aba "Ver todas as opções"
   var I = window.ICONES;
   var API = window.API;
 
@@ -304,13 +305,14 @@
       "</div>" +
       (CATS.length > 1
         ? '<ul class="categorias" aria-label="Categorias de presentes">' +
-            CATS.map(function (c) {
+            [{ id: TODAS, nome: "Ver todas as opções" }].concat(CATS).map(function (c) {
               return '<li><button class="categoria" type="button" data-categoria="' + esc(c.id) + '" aria-pressed="false" aria-controls="lista-presentes">' +
                 esc(c.nome) + ' <span class="categoria__qtd"></span></button></li>';
             }).join("") + "</ul>"
         : "") +
       '<ul class="lista-presentes" id="lista-presentes"></ul>' +
       '<p class="status-presentes" id="status-presentes" role="status" aria-live="polite"></p>' +
+      '<p class="presentes__voltar"><a class="botao botao--contorno" href="#presentes">Voltar ao início</a></p>' +
       "</div></section>";
   }
 
@@ -544,17 +546,17 @@
       "</div></li>";
   }
 
-  var categoriaAtual = CATS.length ? CATS[0].id : null;
+  var categoriaAtual = TODAS; // começa mostrando todas as opções
 
   function desenharPresentes(focarId, focarAcao) {
     var m = meus();
-    var visiveis = categoriaAtual ? P.filter(function (p) { return p.categoria === categoriaAtual; }) : P;
+    var visiveis = categoriaAtual && categoriaAtual !== TODAS ? P.filter(function (p) { return p.categoria === categoriaAtual; }) : P;
     $("#lista-presentes").innerHTML = visiveis.map(function (p) { return cardPresente(p, m); }).join("");
     var livres = P.filter(function (p) { return !escolhidos.has(p.id); }).length;
     $("#contador-presentes span").innerHTML = "<strong>" + livres + "</strong> de " + P.length + " disponíveis";
     $$(".categoria").forEach(function (b) {
       var id = b.getAttribute("data-categoria");
-      var daCat = P.filter(function (p) { return p.categoria === id; });
+      var daCat = id === TODAS ? P : P.filter(function (p) { return p.categoria === id; });
       var livresCat = daCat.filter(function (p) { return !escolhidos.has(p.id); }).length;
       b.setAttribute("aria-pressed", String(id === categoriaAtual));
       b.querySelector(".categoria__qtd").textContent = "(" + livresCat + ")";
